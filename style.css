@@ -1,0 +1,812 @@
+/* ========================================================
+   ROMANTİK & SICAK RENKLER TASARIM SİSTEMİ
+   ======================================================== */
+
+:root {
+    --bg-dark: #090204;
+    --bg-card: rgba(26, 6, 12, 0.72);
+    --bg-card-hover: rgba(43, 10, 20, 0.85);
+    --bg-glass: rgba(255, 77, 109, 0.06);
+    --border-glass: rgba(255, 120, 150, 0.22);
+    --border-glow: rgba(255, 77, 109, 0.45);
+    
+    /* Sıcak Renk Paleti */
+    --primary-red: #ff3355;
+    --flame-coral: #ff5733;
+    --warm-amber: #ff9f1c;
+    --warm-gold: #ffc300;
+    --rose-pink: #ff758f;
+    --deep-crimson: #a00c25;
+    --glow-warm: rgba(255, 51, 85, 0.65);
+    --glow-amber: rgba(255, 159, 28, 0.45);
+    
+    /* Metin Renkleri */
+    --text-white: #fff5f7;
+    --text-muted: #d8b4bc;
+    --text-dim: #9e7b85;
+    
+    /* Tipografi */
+    --font-heading: 'Playfair Display', serif;
+    --font-accent: 'Great Vibes', cursive;
+    --font-body: 'Outfit', sans-serif;
+    --font-brand: 'Cinzel Decorative', cursive;
+}
+
+/* Sıfırlama */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    min-height: 100vh;
+    line-height: 1.6;
+    position: relative;
+    selection-background-color: var(--primary-red);
+    selection-color: #fff;
+}
+
+::selection {
+    background: var(--primary-red);
+    color: #fff;
+}
+
+/* Canvas Arka Planı */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Ses Kontrol Butonu */
+.audio-control-wrapper {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100;
+}
+
+.audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 50px;
+    background: rgba(26, 6, 12, 0.7);
+    border: 1px solid var(--border-glass);
+    color: var(--text-white);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(255, 51, 85, 0.15);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.audio-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    border-color: var(--primary-red);
+    box-shadow: 0 10px 35px var(--glow-warm);
+}
+
+.music-wave {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;
+}
+
+.music-wave span {
+    width: 3px;
+    height: 4px;
+    background-color: var(--primary-red);
+    border-radius: 2px;
+    transition: all 0.2s ease;
+}
+
+.audio-btn.playing .music-wave span:nth-child(1) { animation: waveAnim 0.7s infinite alternate ease-in-out; }
+.audio-btn.playing .music-wave span:nth-child(2) { animation: waveAnim 0.9s infinite alternate 0.2s ease-in-out; }
+.audio-btn.playing .music-wave span:nth-child(3) { animation: waveAnim 0.6s infinite alternate 0.4s ease-in-out; }
+.audio-btn.playing .music-wave span:nth-child(4) { animation: waveAnim 0.8s infinite alternate 0.1s ease-in-out; }
+
+@keyframes waveAnim {
+    0% { height: 4px; background-color: var(--flame-coral); }
+    100% { height: 16px; background-color: var(--warm-amber); }
+}
+
+/* Ana Konteyner */
+.main-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 24px 60px;
+}
+
+/* ========================================================
+   HERO & INTERAKTİF KALP ALANI
+   ======================================================== */
+
+.hero-section {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px 10px 20px;
+    position: relative;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 18px;
+    border-radius: 30px;
+    background: rgba(255, 51, 85, 0.12);
+    border: 1px solid rgba(255, 51, 85, 0.3);
+    color: var(--rose-pink);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    box-shadow: 0 0 20px rgba(255, 51, 85, 0.2);
+    animation: pulseBadge 3s infinite ease-in-out;
+}
+
+@keyframes pulseBadge {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.04); opacity: 1; box-shadow: 0 0 30px rgba(255, 159, 28, 0.35); }
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #ff3355 0%, #ff8533 50%, #ffc300 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    filter: drop-shadow(0 2px 20px rgba(255, 51, 85, 0.4));
+}
+
+.hero-subtitle {
+    max-width: 600px;
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Kalp Sahnesi */
+.heart-stage-container {
+    position: relative;
+    width: 100%;
+    max-width: 840px;
+    height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.stage-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 42, 85, 0.22) 0%, rgba(255, 117, 143, 0.08) 50%, transparent 75%);
+    border-radius: 50%;
+    filter: blur(55px);
+    animation: breatheGlow 4s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes breatheGlow {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    100% { transform: scale(1.15); opacity: 1; }
+}
+
+#heart-canvas {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+/* Kalp Merkezindeki Aşk Çekirdeği */
+.heart-center-pulse {
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    top: 52%;
+    left: 50%;
+    text-shadow: 0 0 25px rgba(255, 51, 85, 0.8);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.core-heart {
+    font-size: 2.4rem;
+    filter: drop-shadow(0 0 15px #ff3355);
+    animation: heartBeat 1.4s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.core-text {
+    font-family: var(--font-accent);
+    font-size: 2.2rem;
+    color: #fff;
+    margin-top: -6px;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #fff 20%, #ffc3a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 12px rgba(255, 51, 85, 0.9));
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.22); }
+    28% { transform: scale(1.05); }
+    42% { transform: scale(1.28); }
+    70% { transform: scale(1); }
+}
+
+/* Kalp Kontrol Butonları */
+.heart-controls {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    gap: 12px;
+    background: rgba(22, 5, 10, 0.8);
+    padding: 6px 10px;
+    border-radius: 40px;
+    border: 1px solid var(--border-glass);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.chip-btn {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.chip-btn:hover {
+    color: #fff;
+    background: rgba(255, 51, 85, 0.2);
+}
+
+.chip-btn.active {
+    background: linear-gradient(135deg, #ff3355, #ff758f);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(255, 51, 85, 0.5);
+}
+
+.interaction-hint {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    opacity: 0.85;
+}
+
+.hint-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--flame-coral);
+    box-shadow: 0 0 10px var(--flame-coral);
+    animation: blinkDot 1.5s infinite;
+}
+
+@keyframes blinkDot {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* ========================================================
+   AKIŞKAN GEÇİŞ VE BÖLÜM AYRAÇLARI
+   ======================================================== */
+
+.fluid-divider {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.fluid-divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 70px;
+}
+
+.section-header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 50px;
+}
+
+.sub-badge {
+    color: var(--warm-amber);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--text-white);
+    margin-bottom: 12px;
+    line-height: 1.25;
+}
+
+.section-desc {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+}
+
+/* ========================================================
+   İNTERAKTİF AŞK MEKTUBU (3D ZARF)
+   ======================================================== */
+
+.letter-section {
+    padding: 60px 0 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.envelope-wrapper {
+    perspective: 1200px;
+    width: 100%;
+    max-width: 580px;
+    height: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.envelope {
+    position: relative;
+    width: 480px;
+    height: 310px;
+    background: linear-gradient(145deg, #1f070e, #3a0d1a);
+    border-radius: 12px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(255, 51, 85, 0.2);
+    border: 1px solid rgba(255, 77, 109, 0.3);
+    cursor: pointer;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.envelope:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8), 0 0 50px rgba(255, 51, 85, 0.35);
+}
+
+/* Zarf Kapağı (Flap) */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 240px solid transparent;
+    border-right: 240px solid transparent;
+    border-top: 170px solid #4a1022;
+    transform-origin: top center;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 5;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+}
+
+/* Zarfın Ön Cebi (Pocket) */
+.envelope-pocket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 240px solid #290813;
+    border-right: 240px solid #290813;
+    border-bottom: 160px solid #360b19;
+    border-top: 150px solid transparent;
+    border-radius: 0 0 12px 12px;
+    z-index: 4;
+}
+
+/* Balmumu Mühür (Wax Seal) */
+.wax-seal {
+    position: absolute;
+    top: 130px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 58px;
+    height: 58px;
+    background: radial-gradient(circle, #ff3355 20%, #b30024 85%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(255, 51, 85, 0.8), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    z-index: 6;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.wax-seal:hover {
+    transform: translate(-50%, -50%) scale(1.15) rotate(10deg);
+}
+
+/* Mektup Kağıdı */
+.letter-card {
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    right: 25px;
+    height: 270px;
+    background: linear-gradient(135deg, #fff9fa 0%, #ffecee 100%);
+    color: #3b101b;
+    border-radius: 10px;
+    padding: 24px 28px;
+    z-index: 3;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(0);
+    overflow: hidden;
+}
+
+.letter-stamp {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: #ffe3e8;
+    color: var(--primary-red);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px dashed var(--primary-red);
+}
+
+.letter-heading {
+    font-family: var(--font-accent);
+    font-size: 2.2rem;
+    color: var(--deep-crimson);
+    margin-bottom: 12px;
+    line-height: 1.1;
+}
+
+.letter-paragraph {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #4a1725;
+    margin-bottom: 12px;
+    font-weight: 400;
+}
+
+.letter-signature {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: var(--font-accent);
+    font-size: 1.4rem;
+    color: var(--deep-crimson);
+}
+
+.letter-signature strong {
+    font-size: 1.6rem;
+    color: #ff3355;
+}
+
+/* Zarf Açık Durumu */
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .wax-seal {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.5);
+}
+
+.envelope.open .letter-card {
+    transform: translateY(-160px);
+    height: 380px;
+    z-index: 10;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 77, 109, 0.4);
+    overflow-y: auto;
+}
+
+/* ========================================================
+   NEDEN SEN? KARTLARI (REASONS SECTION)
+   ======================================================== */
+
+.reasons-section {
+    padding: 70px 0;
+}
+
+.reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+}
+
+.reason-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 36px 26px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+    transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.card-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 20%, rgba(255, 77, 109, 0.18), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+}
+
+.reason-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary-red);
+    box-shadow: 0 20px 45px rgba(255, 51, 85, 0.22);
+    background: var(--bg-card-hover);
+}
+
+.reason-card:hover .card-glow {
+    opacity: 1;
+}
+
+.reason-icon {
+    font-size: 2.2rem;
+    margin-bottom: 18px;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 51, 85, 0.12);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 77, 109, 0.3);
+    transition: transform 0.4s ease;
+}
+
+.reason-card:hover .reason-icon {
+    transform: scale(1.15) rotate(6deg);
+}
+
+.reason-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    margin-bottom: 12px;
+    color: var(--text-white);
+}
+
+.reason-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* ========================================================
+   SEVGİ FISILTISI (CANLI SÖZ ÜRETECİ)
+   ======================================================== */
+
+.whisper-section {
+    padding: 50px 0 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.whisper-box {
+    position: relative;
+    max-width: 720px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(38, 9, 18, 0.8), rgba(20, 4, 9, 0.9));
+    border: 1px solid rgba(255, 120, 150, 0.3);
+    border-radius: 28px;
+    padding: 50px 40px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(255, 51, 85, 0.2);
+}
+
+.quote-mark {
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    line-height: 1;
+    color: rgba(255, 77, 109, 0.25);
+    position: absolute;
+    top: 10px;
+    left: 25px;
+    pointer-events: none;
+}
+
+.whisper-quote {
+    font-family: var(--font-heading);
+    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+    font-style: italic;
+    color: #fff;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.glow-action-btn {
+    border: none;
+    background: linear-gradient(135deg, #ff3355 0%, #ff8533 100%);
+    color: #fff;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 14px 28px;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(255, 51, 85, 0.45);
+    transition: all 0.35s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.glow-action-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(255, 51, 85, 0.7);
+}
+
+.glow-action-btn:active {
+    transform: translateY(0);
+}
+
+/* ========================================================
+   FOOTER
+   ======================================================== */
+
+.romantic-footer {
+    text-align: center;
+    padding: 40px 10px 20px;
+    border-top: 1px solid rgba(255, 77, 109, 0.15);
+    color: var(--text-dim);
+}
+
+.footer-heart-beat {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    display: inline-block;
+    animation: heartBeat 1.8s infinite;
+}
+
+.romantic-footer p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-family: var(--font-heading);
+}
+
+.romantic-footer small {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+/* ========================================================
+   RESPONSIVE UYUMLULUK
+   ======================================================== */
+
+@media (max-width: 768px) {
+    .heart-stage-container {
+        height: 480px;
+    }
+    
+    .stage-glow {
+        width: 320px;
+        height: 320px;
+    }
+
+    .envelope {
+        width: 330px;
+        height: 240px;
+    }
+
+    .envelope-flap {
+        border-left-width: 165px;
+        border-right-width: 165px;
+        border-top-width: 120px;
+    }
+
+    .envelope-pocket {
+        border-left-width: 165px;
+        border-right-width: 165px;
+        border-bottom-width: 120px;
+        border-top-width: 110px;
+    }
+
+    .envelope.open .letter-card {
+        transform: translateY(-130px);
+        height: 340px;
+    }
+
+    .whisper-box {
+        padding: 35px 22px;
+    }
+}

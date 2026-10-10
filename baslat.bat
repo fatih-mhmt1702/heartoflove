@@ -1,0 +1,3 @@
+@echo off
+echo Sonsuza Kadar Sen - Web Sitesi Baslatiliyor...
+start "" "%~dp0index.html"

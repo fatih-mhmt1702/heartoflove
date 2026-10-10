@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonsuza Kadar Sen | Sana Olan Sevgimle</title>
+    <meta name="description" content="Dünyanın bütün dillerinde tek bir gerçek: Seni Seviyorum. Sıcak, akışkan ve büyülü bir aşk yolculuğu.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Parçacık ve Yıldız Arka Planı -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Ses Kontrol Butonu -->
+    <div class="audio-control-wrapper">
+        <button id="music-toggle" class="audio-btn" title="Romantik Ambiyans Melodisi" aria-label="Müziği Başlat / Durdur">
+            <span class="music-icon">🎵</span>
+            <span class="music-wave">
+                <span></span><span></span><span></span><span></span>
+            </span>
+            <span class="music-label">Melodiyi Başlat</span>
+        </button>
+    </div>
+
+    <!-- Ana Konteyner -->
+    <main class="main-container">
+        <!-- Hero & Kalp Animasyonu Bölümü -->
+        <section class="hero-section" id="hero">
+            <div class="hero-badge">
+                <span class="sparkle-icon">✨</span>
+                <span>Dünyanın Tüm Dillerinde Tek Bir Cümle</span>
+                <span class="sparkle-icon">✨</span>
+            </div>
+
+            <h1 class="hero-title">
+                Sana Olan Sevgim <span class="gradient-text">Sonsuz</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Yeryüzünde konuşulan hiçbir dil sevgimin büyüklüğünü tek başına anlatmaya yetmezdi... 
+                Bu yüzden her dilde kalbime fısıldadım.
+            </p>
+
+            <!-- İnteraktif Kalp Sahnesi -->
+            <div class="heart-stage-container">
+                <div class="stage-glow"></div>
+                <canvas id="heart-canvas"></canvas>
+                
+                <!-- Kalp Ortasındaki Merkez Mesaj (Hover veya Atışta Parlayan) -->
+                <div class="heart-center-pulse" id="heart-center">
+                    <span class="core-heart">❤️</span>
+                    <span class="core-text">Esma</span>
+                </div>
+
+                <!-- Kontrol Butonları ve Durum Göstergesi -->
+                <div class="heart-controls">
+                    <button id="btn-pulse" class="chip-btn active" data-mode="fill">
+                        <span>💖</span> Kalbi Doldur
+                    </button>
+                    <button id="btn-burst" class="chip-btn" data-mode="outline">
+                        <span>✨</span> Hatları Çiz
+                    </button>
+                    <button id="btn-sparkle" class="chip-btn" data-mode="explode">
+                        <span>🎆</span> Işıltı Patlaması
+                    </button>
+                </div>
+                <div class="interaction-hint">
+                    <span class="hint-dot"></span> Kalbin üzerine dokun veya fareyi gezdir, büyüyü hisset
+                </div>
+            </div>
+        </section>
+
+        <!-- Akışkan Geçiş Ayracı -->
+        <div class="fluid-divider">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0 C150,90 350,-40 500,45 C650,130 900,10 1200,50 L1200,120 L0,120 Z" fill="url(#warmGradient)"></path>
+                <defs>
+                    <linearGradient id="warmGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="rgba(255, 77, 109, 0.15)"></stop>
+                        <stop offset="50%" stop-color="rgba(255, 154, 60, 0.25)"></stop>
+                        <stop offset="100%" stop-color="rgba(230, 57, 70, 0.15)"></stop>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <!-- İnteraktif Aşk Mektubu / Zarf Bölümü -->
+        <section class="letter-section" id="letter">
+            <div class="section-header">
+                <span class="sub-badge">Sana Özel Bir Fısıltı</span>
+                <h2 class="section-title">Açılmayı Bekleyen Bir Mektup</h2>
+                <p class="section-desc">Mühürlü zarfa dokun ve kalbimden dökülen satırları oku...</p>
+            </div>
+
+            <div class="envelope-wrapper">
+                <div class="envelope" id="envelope">
+                    <div class="envelope-front">
+                        <div class="envelope-flap" id="envelope-flap"></div>
+                        <div class="envelope-pocket"></div>
+                        <div class="wax-seal" id="wax-seal" title="Mührü Aç">
+                            <span>❤️</span>
+                        </div>
+                    </div>
+                    <div class="letter-card" id="letter-card">
+                        <div class="letter-stamp">💌 Özel</div>
+                        <div class="letter-inner">
+                            <h3 class="letter-heading">Canımın İçi, Sevgilim...</h3>
+                            <p class="letter-paragraph">
+                                Hayatıma girdiğin ilk andan beri, dünyamın renkleri çok daha sıcak, 
+                                gökyüzüm çok daha parlak oldu. Gülüşün bana ev hissini veriyor; sesin ise 
+                                en hırçın anlarda bile ruhuma huzur aşılıyor.
+                            </p>
+                            <p class="letter-paragraph">
+                                Dünyada binlerce dil, milyonlarca kelime var ama seninle aramızdaki o sessiz 
+                                bakışma bile hepsinden daha derin. Kalbimdeki bu sonsuz sevgi, bu sayfadaki 
+                                her bir harfle senin için atıyor.
+                            </p>
+                            <div class="letter-signature">
+                                <span>Daima seninle,</span>
+                                <strong>Seni Çok Seven Biri ❤️</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- "Neden Sen?" Aşk Nedenleri Kartları -->
+        <section class="reasons-section" id="reasons">
+            <div class="section-header">
+                <span class="sub-badge">Kalbimdeki İmzaların</span>
+                <h2 class="section-title">Seni Neden Bu Kadar Çok Seviyorum?</h2>
+                <p class="section-desc">Kartların üzerine gelip gizli duyguları keşfet</p>
+            </div>
+
+            <div class="reasons-grid">
+                <div class="reason-card">
+                    <div class="card-glow"></div>
+                    <div class="reason-icon">✨</div>
+                    <h3>Gözlerindeki Işık</h3>
+                    <p>Bana her baktığında dünyadaki bütün gürültü kesiliyor, sadece senin sıcaklığın kalıyor.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="card-glow"></div>
+                    <div class="reason-icon">🌸</div>
+                    <h3>Zarif Kalbin</h3>
+                    <p>Herkese ve her şeye gösterdiğin o şefkatli, saf dokunuşun beni sana her gün yeniden aşık ediyor.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="card-glow"></div>
+                    <div class="reason-icon">🌙</div>
+                    <h3>Geceme Işık Oluşun</h3>
+                    <p>En yorgun, en karanlık günlerimde bile senin tek bir cümlen yolumu aydınlatmaya yetiyor.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="card-glow"></div>
+                    <div class="reason-icon">🔥</div>
+                    <h3>Birlikteki Kahkahalarımız</h3>
+                    <p>Seninle paylaştığımız en küçük bir tebessüm bile ömrümün en değerli hazinesine dönüşüyor.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Canlı Aşk Sözü Üreteci / Fısıltılar -->
+        <section class="whisper-section" id="whisper">
+            <div class="whisper-box">
+                <span class="quote-mark">“</span>
+                <p id="whisper-text" class="whisper-quote">
+                    Sen benim bu dünyada karşılaştığım en güzel mucizesin.
+                </p>
+                <button id="btn-next-whisper" class="glow-action-btn">
+                    <span>💫 Yeni Bir Sevgi Fısıltısı</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="romantic-footer">
+            <div class="footer-heart-beat">💖</div>
+            <p>Her kalp atışında, dünyanın her dilinde seninleyim.</p>
+            <small>© 2026 Sonsuz Aşkla Hazırlandı</small>
+        </footer>
+    </main>
+
+    <!-- Scripts -->
+    <script src="audio.js"></script>
+    <script src="heart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
